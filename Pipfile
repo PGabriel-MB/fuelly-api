@@ -5,7 +5,9 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flask-mongoengine = "*"
+flask-restful = "*"
+flask-bcrypt = "*"
+flask-mongoengine = {ref = "1.0.1", git = "git+https://github.com/idoshr/flask-mongoengine.git"}
 
 [dev-packages]
 
