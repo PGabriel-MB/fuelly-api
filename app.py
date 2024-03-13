@@ -5,8 +5,11 @@ from flask_bcrypt import Bcrypt
 from config import MONGODB_SETTINGS
 from database.db import initialize_db
 
+print('usso')
+print(MONGODB_SETTINGS)
+
 app = Flask(__name__)
-app.config.update(MONGODB_SETTINGS)
+app.config['MONGODB_SETTINGS'] = MONGODB_SETTINGS
 
 from routes import initialize_routes
 
