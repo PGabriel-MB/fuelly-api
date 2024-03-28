@@ -2,8 +2,7 @@ from flask import Response, request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from database.Vehicle import Vehicle
-from database.User import User
+from database.models import Vehicle, User
 
 class VehiclesApi(Resource):
     @jwt_required()
