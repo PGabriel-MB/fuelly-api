@@ -2,12 +2,12 @@ from flask import Response, request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from database.models import Vehicle, User
+from database.User import User
 
 class VehiclesApi(Resource):
     @jwt_required()
     def get(self):
-        vehicles = Vehicle.objects.to_json()
+        vehicles = User.objects.to_json()
         return Response(vehicles, mimetype="application/json", status=200)
 
     @jwt_required()
@@ -15,7 +15,7 @@ class VehiclesApi(Resource):
         user_id = get_jwt_identity()
         body = request.get_json()
         user = User.objects.get(id=user_id)
-        vehicle = Vehicle(**body, added_by=user).save()
+        vehicle = User(**body, added_by=user).save()
         user.update(push__vehicle=vehicle)
         user.save()
         id = vehicle.id
