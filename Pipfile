@@ -7,8 +7,8 @@ name = "pypi"
 flask = "*"
 flask-restful = "*"
 flask-bcrypt = "*"
-flask-mongoengine = {ref = "1.0.1", git = "git+https://github.com/idoshr/flask-mongoengine.git"}
 flask-jwt-extended = "*"
+mongoengine = "*"
 
 [dev-packages]
 
