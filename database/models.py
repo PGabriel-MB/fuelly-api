@@ -1,11 +1,10 @@
 from datetime import datetime
+from mongoengine import fields as me
 
-from .db import db
-
-class BaseDocument(db.Document):
+class BaseDocument(me.Document):
     meta = {
         'abstract': True
     }
 
-    created_at = db.DateTimeField(default=datetime.utcnow())
-    updated_at = db.DateTimeField(default=datetime.utcnow())
+    created_at = me.DateTimeField(default=datetime.utcnow())
+    updated_at = me.DateTimeField(default=datetime.utcnow())

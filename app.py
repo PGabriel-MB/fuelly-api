@@ -7,7 +7,7 @@ from config import MONGODB_SETTINGS
 from database.db import initialize_db
 
 app = Flask(__name__)
-app.config.from_envvar('ENV_FILE_LOCATION')
+#app.config.from_envvar('ENV_FILE_LOCATION')
 
 from routes import initialize_routes
 
@@ -16,7 +16,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 
-initialize_db(app)
+initialize_db(MONGODB_SETTINGS)
 initialize_routes(api)
 
 app.run()
