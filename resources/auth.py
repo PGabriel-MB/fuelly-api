@@ -18,6 +18,7 @@ class SignupApi(Resource):
 class LoginApi(Resource):
     def post(self):
         body = request.get_json()
+        print(User.objects)
         user = User.objects.get(email=body.get('email'))
         authorized = user.check_password(body.get('password'))
 

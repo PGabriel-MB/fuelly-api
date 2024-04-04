@@ -1,10 +1,10 @@
-from pymongo import MongoClient
+from mongoengine import connect
 
 def initialize_db(mongo_settings):
-    """ connect(
+    connect(
         host=mongo_settings['host'],
         db=mongo_settings['db'],
         username=mongo_settings['username'],
         password=mongo_settings['password']
-    ) """
-    client = MongoClient(mongo_settings['host'])
+    )
+    #connect(host=mongo_settings['host'])

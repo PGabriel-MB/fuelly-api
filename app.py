@@ -7,7 +7,7 @@ from config import MONGODB_SETTINGS
 from database.db import initialize_db
 
 app = Flask(__name__)
-#app.config.from_envvar('ENV_FILE_LOCATION')
+app.config.from_envvar('ENV_FILE_LOCATION')
 
 from routes import initialize_routes
 
