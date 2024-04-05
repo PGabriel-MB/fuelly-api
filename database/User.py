@@ -9,6 +9,7 @@ class User(BaseDocument):
     name = me.StringField(required=True, unique=True)
     email = me.EmailField(unique=True)
     password = me.StringField(required=True)
+    phone = me.StringField(required=True)
     vehicles = me.ListField(me.EmbeddedDocumentField(Vehicle))
 
     def set_password(self):
