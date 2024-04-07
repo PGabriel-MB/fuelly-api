@@ -1,5 +1,7 @@
+import pycountry
 from datetime import datetime
 from mongoengine import fields as me
+
 
 VEHICLE_TYPE_CHOICES = [
     'common_car',
@@ -27,6 +29,15 @@ class Vehicle(me.EmbeddedDocument):
     fuel_type = me.StringField(choices=FUEL_TYPE)
     created_at = me.DateTimeField(default=datetime.utcnow())
     updated_at = me.DateTimeField(default=datetime.utcnow())
+    country_code = me.StringField(required=True)
+
+    @property
+    def country_name(self):
+        try:
+            country = pycountry.countries.get(alpha_2=self.country_code)
+            return country.name
+        except AttributeError:
+            return "Unknown"
 
     meta = {
         'allow_inheritance': True

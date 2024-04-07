@@ -9,6 +9,7 @@ flask-restful = "*"
 flask-bcrypt = "*"
 flask-jwt-extended = "*"
 mongoengine = "*"
+pycountry = "*"
 
 [dev-packages]
 
