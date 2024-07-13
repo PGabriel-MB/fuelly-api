@@ -38,7 +38,7 @@ errors = {
         "status": 400
     },
     "CarAlreadyExistsError": {
-        "message": "Car with given name already exists",
+        "message": "Car with given name/license plate already exists",
         "status": 400
     },
     "UpdatingCarError": {

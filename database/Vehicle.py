@@ -20,6 +20,7 @@ FUEL_TYPE = [
 ]
 
 class Vehicle(me.EmbeddedDocument):
+    licanse_plate = me.StringField(required=True, unique=True)
     brand = me.StringField(required=True)
     model = me.StringField(required=True)
     year = me.IntField(required=True)
