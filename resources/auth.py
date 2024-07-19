@@ -1,5 +1,7 @@
 import datetime
-from flask import request
+import json
+
+from flask import request, Response
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist
@@ -53,8 +55,20 @@ class LoginApi(Resource):
 
             expires = datetime.timedelta(days=7)
             access_token = create_access_token(identity=str(user.id), expires_delta=expires)
-            return { 'token': access_token }
+            
+            user_dict = user.to_mongo().to_dict()
+
+            user_dict.pop('_id', None)
+            user_dict.pop('vehicles', None)
+            user_dict.pop('created_at', None)
+            user_dict.pop('updated_at', None)
+            user_dict.pop('password', None)
+
+            data = { 'id': str(user.id) } | user_dict | { 'token': access_token }            #return { 'token': access_token }, 200
+
+            return Response(json.dumps(data), mimetype="application/json", status=200)
         except (UnauthorizedError, DoesNotExist):
             raise UnauthorizedError
         except Exception as e:
+            print(e)
             raise InternalServerError

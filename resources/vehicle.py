@@ -12,7 +12,8 @@ InternalServerError
 class VehiclesApi(Resource):
     @jwt_required()
     def get(self):
-        vehicles = User.objects.to_json()
+        user_id = get_jwt_identity()
+        vehicles = User.objects.get(id=user_id).vehicles
         return Response(vehicles, mimetype="application/json", status=200)
 
     @jwt_required()
@@ -52,6 +53,7 @@ class VehicleApi(Resource):
         except Exception as e:
             raise InternalServerError
     
+    @jwt_required()
     def put(self, id):
         try:
             body = request.get_json()
@@ -65,6 +67,7 @@ class VehicleApi(Resource):
         except Exception as e:
             raise InternalServerError
     
+    @jwt_required()
     def delete(self, id):
         try:
             vehicle = Vehicle.objects.get(id=id).delete()
