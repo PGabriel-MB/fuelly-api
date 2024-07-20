@@ -13,4 +13,4 @@ def initialize_routes(api):
 
     # vehicles
     api.add_resource(VehiclesApi, '/api/vehicles')
-    api.add_resource(VehiclesApi, '/api/vehicle/<id>')
+    api.add_resource(VehicleApi, '/api/vehicle/<id>')

@@ -68,5 +68,8 @@ errors = {
     "AgeNotAllowedError": {
         "message": "The age is not allowed",
         "status": 401
+    },
+    "NoAuthorizationError": {
+        "message": "Missing Authorizartion Header! Verify your credentials"
     }
 }

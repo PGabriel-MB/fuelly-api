@@ -1,5 +1,8 @@
-from flask import Response, request
+import json
+
+from flask import Response, request, jsonify
 from flask_restful import Resource
+from flask_jwt_extended.exceptions import NoAuthorizationError
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from mongoengine.errors import NotUniqueError, FieldDoesNotExist, DoesNotExist, InvalidDocumentError
 
@@ -12,9 +15,12 @@ InternalServerError
 class VehiclesApi(Resource):
     @jwt_required()
     def get(self):
-        user_id = get_jwt_identity()
-        vehicles = User.objects.get(id=user_id).vehicles
-        return Response(vehicles, mimetype="application/json", status=200)
+        try:    
+            user_id = get_jwt_identity()
+            vehicles = User.objects.get(id=user_id).vehicles
+            return Response(json.dumps({'veiculos': vehicles}), mimetype="application/json", status=200)
+        except Exception as e:
+            return jsonify({'message': str(e)}), 500
 
     @jwt_required()
     def post(self):
