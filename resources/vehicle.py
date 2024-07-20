@@ -29,16 +29,18 @@ class VehiclesApi(Resource):
             body = request.get_json()
             user = User.objects.get(id=user_id)
 
-            some_vehicle = Vehicle.objects.get(license_plate=body['license_plate'])
+            user_vehicles = user.vehicles
 
-            if some_vehicle is not None:
+            result = next((vehicle for vehicle in user_vehicles if vehicle['license_plate'] == body['license_plate']), None)
+
+            if result:
                 raise CarAlreadyExistsError
 
             vehicle = Vehicle(**body, added_by=user).save()
             user.update(push__vehicle=vehicle)
             user.save()
-            id = vehicle.id
-            return { 'id': str(id) }, 200
+            vehicle_id = vehicle.id
+            return { 'vehicle_id': str(vehicle_id) }, 200
         except NotUniqueError:
             raise CarAlreadyExistsError
         except FieldDoesNotExist:

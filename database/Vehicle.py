@@ -25,7 +25,7 @@ class Vehicle(me.EmbeddedDocument):
     model = me.StringField(required=True)
     year = me.IntField(required=True)
     color = me.StringField(required=True)
-    price = me.DecimalField(required=True)
+    #price = me.DecimalField(required=True)
     vehicle_type = me.StringField(choices=VEHICLE_TYPE_CHOICES)
     fuel_type = me.StringField(choices=FUEL_TYPE)
     created_at = me.DateTimeField(default=datetime.utcnow())
