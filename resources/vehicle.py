@@ -15,10 +15,21 @@ InternalServerError
 class VehiclesApi(Resource):
     @jwt_required()
     def get(self):
-        try:    
+        try:
+            vehicles_list = []
+
             user_id = get_jwt_identity()
             vehicles = User.objects.get(id=user_id).vehicles
-            return Response(json.dumps({'veiculos': vehicles}), mimetype="application/json", status=200)
+
+            for vehicle in vehicles:
+                vehicle_dict = vehicle.to_mongo().to_dict()
+                vehicle_dict.pop('_cls', None)
+                vehicle_dict.pop('created_at', None)
+                vehicle_dict.pop('updated_at', None)
+                vehicles_list.append(vehicle_dict)
+
+            vehicles_data = json.dumps({'vehicles': vehicles_list})
+            return Response(vehicles_data, mimetype="application/json", status=200)
         except Exception as e:
             return jsonify({'message': str(e)}), 500
 
