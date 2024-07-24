@@ -47,10 +47,10 @@ class VehiclesApi(Resource):
             if result:
                 raise CarAlreadyExistsError
 
-            vehicle = Vehicle(**body)
-            user.update(push__vehicles=vehicle)
+            vehicle = Vehicle(**body).save()
+            user.vehicles.append(vehicle)
             license_plate = vehicle.license_plate
-            return {'license_plate': f'Vehicle {str(license_plate)} added succesfully!'}, 200
+            return {'license_plate': f'Vehicle {license_plate} added succesfully!'}, 200
         except NotUniqueError:
             raise CarAlreadyExistsError
         except FieldDoesNotExist:

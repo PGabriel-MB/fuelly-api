@@ -2,6 +2,8 @@ import pycountry
 from datetime import datetime
 from mongoengine import fields as me
 
+from .models import BaseDocument
+
 
 VEHICLE_TYPE_CHOICES = [
     'common_car',
@@ -19,7 +21,7 @@ FUEL_TYPE = [
     'hybrid_flex',
 ]
 
-class Vehicle(me.EmbeddedDocument):
+class Vehicle(BaseDocument):
     license_plate = me.StringField(required=True, unique=True)
     brand = me.StringField(required=True)
     model = me.StringField(required=True)
@@ -28,8 +30,6 @@ class Vehicle(me.EmbeddedDocument):
     #price = me.DecimalField(required=True)
     vehicle_type = me.StringField(choices=VEHICLE_TYPE_CHOICES)
     fuel_type = me.StringField(choices=FUEL_TYPE)
-    created_at = me.DateTimeField(default=datetime.utcnow())
-    updated_at = me.DateTimeField(default=datetime.utcnow())
     country_code = me.StringField(required=True)
 
     @property

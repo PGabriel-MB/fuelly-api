@@ -13,7 +13,7 @@ class User(BaseDocument):
     password = me.StringField(required=True)
     phone = me.StringField(required=True)
     birth_date = me.DateField(required=True)
-    vehicles = me.ListField(me.EmbeddedDocumentField(Vehicle))
+    vehicles = me.ListField(me.ReferenceField(Vehicle))
     country_code = me.StringField(required=True)
 
     @property
