@@ -28,6 +28,9 @@ class NotAPhoneNumberError(Exception):
 class AgeNotAllowedError(Exception):
     ...
 
+class ValidationError(Exception):
+    ...
+
 errors = {
     "InternalServerError": {
         "message": "Something went wrong",
@@ -71,5 +74,8 @@ errors = {
     },
     "NoAuthorizationError": {
         "message": "Missing Authorizartion Header! Verify your credentials"
+    },
+    "ValidationError": {
+        "message": "Check that all data was sent correctly"
     }
 }
