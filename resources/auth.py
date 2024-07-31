@@ -8,6 +8,7 @@ from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, 
 
 from database.User import User
 from .utils import is_phone_number
+from config import MONGODB_SETTINGS
 from resources.errors import SchemaValidationError, EmailAlreadyExistsError, UnauthorizedError, \
 InternalServerError, NotAPhoneNumberError, AgeNotAllowedError, ValidationError
 
@@ -23,6 +24,9 @@ class SignupApi(Resource):
             body['phone'] = f'+{phone}'
 
             user = User(**body)
+
+            print('DATABASEEEEEEEEEEEEEEEE')
+            print(MONGODB_SETTINGS['db'])
 
             if not user.is_of_appropriate_age(18):
                 raise AgeNotAllowedError
