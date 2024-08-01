@@ -25,9 +25,6 @@ class SignupApi(Resource):
 
             user = User(**body)
 
-            print('DATABASEEEEEEEEEEEEEEEE')
-            print(MONGODB_SETTINGS['db'])
-
             if not user.is_of_appropriate_age(18):
                 raise AgeNotAllowedError
 
@@ -69,6 +66,8 @@ class LoginApi(Resource):
             user_dict.pop('created_at', None)
             user_dict.pop('updated_at', None)
             user_dict.pop('password', None)
+
+            user_dict['birth_date'] = user_dict['birth_date'].strftime('%Y-%m-%d')
 
             data = { 'id': str(user.id) } | user_dict | { 'token': access_token }            #return { 'token': access_token }, 200
 
