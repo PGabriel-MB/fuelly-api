@@ -3,6 +3,7 @@ from datetime import datetime
 from mongoengine import fields as me
 
 from .models import BaseDocument
+from .User import User
 
 
 VEHICLE_TYPE_CHOICES = [
@@ -22,7 +23,7 @@ FUEL_TYPE = [
 ]
 
 class Vehicle(BaseDocument):
-    license_plate = me.StringField(required=True, unique=True)
+    license_plate = me.StringField(required=False, unique=False)
     brand = me.StringField(required=True)
     model = me.StringField(required=True)
     year = me.IntField(required=True)
@@ -31,6 +32,7 @@ class Vehicle(BaseDocument):
     vehicle_type = me.StringField(choices=VEHICLE_TYPE_CHOICES)
     fuel_type = me.StringField(choices=FUEL_TYPE)
     country_code = me.StringField(required=True)
+    owner = me.ReferenceField(User, required=True)
 
     @property
     def country_name(self):

@@ -22,6 +22,7 @@ class SignupApi(Resource):
                 raise NotAPhoneNumberError
             
             body['phone'] = f'+{phone}'
+            body['vehicles'] = []
 
             user = User(**body)
 

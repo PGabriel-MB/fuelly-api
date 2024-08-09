@@ -13,7 +13,6 @@ class User(BaseDocument):
     password = me.StringField(required=True)
     phone = me.StringField(required=True)
     birth_date = me.DateField(required=True)
-    vehicles = me.ListField(me.ReferenceField(Vehicle), required=False)
     country_code = me.StringField(required=True)
 
     @property
@@ -23,6 +22,10 @@ class User(BaseDocument):
             return country.name
         except AttributeError:
             return "Unknown country"
+
+    @property    
+    def vehicles(self):
+        return ''
 
     def set_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
