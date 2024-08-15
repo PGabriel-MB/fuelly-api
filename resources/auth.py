@@ -22,7 +22,7 @@ class SignupApi(Resource):
                 raise NotAPhoneNumberError
             
             body['phone'] = f'+{phone}'
-            body['vehicles'] = []
+            # body['vehicles'] = []
 
             user = User(**body)
 
@@ -51,7 +51,10 @@ class LoginApi(Resource):
     def post(self):
         try:
             body = request.get_json()
-            user = User.objects.get(email=body.get('email'))
+            user = User.objects.get(
+                email=body.get('email')
+            )
+            user.vehicles
             authorized = user.check_password(body.get('password'))
 
             if not authorized:
@@ -63,7 +66,7 @@ class LoginApi(Resource):
             user_dict = user.to_mongo().to_dict()
 
             user_dict.pop('_id', None)
-            user_dict.pop('vehicles', None)
+            #user_dict.pop('vehicles', None)
             user_dict.pop('created_at', None)
             user_dict.pop('updated_at', None)
             user_dict.pop('password', None)

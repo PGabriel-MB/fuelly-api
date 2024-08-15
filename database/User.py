@@ -4,7 +4,6 @@ from mongoengine import fields as me
 from datetime import datetime
 
 from .models import BaseDocument
-from .Vehicle import Vehicle
 
 
 class User(BaseDocument):
@@ -23,9 +22,11 @@ class User(BaseDocument):
         except AttributeError:
             return "Unknown country"
 
-    @property    
+    @property
     def vehicles(self):
-        return ''
+        from .Vehicle import Vehicle
+        user_vehicles = Vehicle.objects.get(owner=self.id)
+        return user_vehicles
 
     def set_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
