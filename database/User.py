@@ -25,8 +25,7 @@ class User(BaseDocument):
     @property
     def vehicles(self):
         from .Vehicle import Vehicle
-        user_vehicles = Vehicle.objects.get(owner=self.id)
-        return user_vehicles
+        return Vehicle.objects(owner=self.id)
 
     def set_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')

@@ -66,7 +66,6 @@ class LoginApi(Resource):
             user_dict = user.to_mongo().to_dict()
 
             user_dict.pop('_id', None)
-            #user_dict.pop('vehicles', None)
             user_dict.pop('created_at', None)
             user_dict.pop('updated_at', None)
             user_dict.pop('password', None)
