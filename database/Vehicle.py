@@ -4,6 +4,7 @@ from mongoengine import fields as me
 
 from .models import BaseDocument
 from .User import User
+from .VehicleFuelingCosts import VehicleFuelingCosts
 
 
 VEHICLE_TYPE_CHOICES = [
@@ -28,11 +29,11 @@ class Vehicle(BaseDocument):
     model = me.StringField(required=True)
     year = me.IntField(required=True)
     color = me.StringField(required=True)
-    #price = me.DecimalField(required=True)
     vehicle_type = me.StringField(choices=VEHICLE_TYPE_CHOICES)
     fuel_type = me.StringField(choices=FUEL_TYPE)
     country_code = me.StringField(required=True)
     owner = me.ReferenceField(User, required=True)
+    vehicle_fueling_costs = me.EmbeddedDocumentField()
 
     @property
     def country_name(self):
