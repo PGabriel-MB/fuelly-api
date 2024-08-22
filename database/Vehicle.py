@@ -33,7 +33,9 @@ class Vehicle(BaseDocument):
     fuel_type = me.StringField(choices=FUEL_TYPE)
     country_code = me.StringField(required=True)
     owner = me.ReferenceField(User, required=True)
-    vehicle_fueling_costs = me.EmbeddedDocumentField()
+    vehicle_fueling_costs = me.ListField(
+        me.EmbeddedDocumentField(VehicleFuelingCosts)
+    )
 
     @property
     def country_name(self):
