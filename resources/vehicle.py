@@ -46,11 +46,12 @@ class VehiclesApi(Resource):
 
             if result:
                 raise CarAlreadyExistsError
+            
+            body['owner'] = user_id
 
             vehicle = Vehicle(**body).save()
-            user.vehicles.append(vehicle)
             license_plate = vehicle.license_plate
-            return {'license_plate': f'Vehicle {license_plate} added succesfully!'}, 200
+            return {'message': f'Vehicle {license_plate} added succesfully!'}, 200
         except NotUniqueError:
             raise CarAlreadyExistsError
         except FieldDoesNotExist:
@@ -59,8 +60,7 @@ class VehiclesApi(Resource):
             raise InternalServerError
 
 
-class VehicleApi(Resource):
-
+class VehicleApi(Resource): 
     @jwt_required()
     def get(self, id):
         try:
