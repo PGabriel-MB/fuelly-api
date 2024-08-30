@@ -44,8 +44,8 @@ errors = {
         "status": 400
     },
     "ExcessiveFieldsError": {
-        "message": "There are too many fields",
-        "status": 401
+        "message": "There are unnecessary fields",
+        "status": 400
     },
     "CarAlreadyExistsError": {
         "message": "Car with given name/license plate already exists",
