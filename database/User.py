@@ -8,7 +8,7 @@ from .models import BaseDocument
 
 class User(BaseDocument):
     name = me.StringField(required=True, unique=True)
-    email = me.EmailField(unique=True)
+    email = me.EmailField(unique=True, required=True)
     password = me.StringField(required=True)
     phone = me.StringField(required=True)
     birth_date = me.DateField(required=True)

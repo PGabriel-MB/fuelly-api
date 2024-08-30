@@ -4,6 +4,9 @@ class InternalServerError(Exception):
 class SchemaValidationError(Exception):
     ...
 
+class ExcessiveFieldsError(Exception):
+    ...
+
 class CarAlreadyExistsError(Exception):
     ...
 
@@ -40,6 +43,10 @@ errors = {
         "message": "Request is missing required fields",
         "status": 400
     },
+    "ExcessiveFieldsError": {
+        "message": "There are too many fields",
+        "status": 401
+    },
     "CarAlreadyExistsError": {
         "message": "Car with given name/license plate already exists",
         "status": 400
@@ -73,9 +80,11 @@ errors = {
         "status": 401
     },
     "NoAuthorizationError": {
-        "message": "Missing Authorizartion Header! Verify your credentials"
+        "message": "Missing Authorizartion Header! Verify your credentials",
+        "status": 401
     },
     "ValidationError": {
-        "message": "Check that all data was sent correctly"
+        "message": "check if the data was sent correctly",
+        "status": 401
     }
 }

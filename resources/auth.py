@@ -8,9 +8,8 @@ from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, 
 
 from database.User import User
 from .utils import is_phone_number
-from config import MONGODB_SETTINGS
 from resources.errors import SchemaValidationError, EmailAlreadyExistsError, UnauthorizedError, \
-InternalServerError, NotAPhoneNumberError, AgeNotAllowedError, ValidationError
+InternalServerError, NotAPhoneNumberError, AgeNotAllowedError, ValidationError, ExcessiveFieldsError
 
 class SignupApi(Resource):
     def post(self):
@@ -22,9 +21,6 @@ class SignupApi(Resource):
                 raise NotAPhoneNumberError
             
             body['phone'] = f'+{phone}'
-
-            print('USUARIO!!!!')
-            print(body)
 
             user = User(**body)
 
@@ -38,12 +34,14 @@ class SignupApi(Resource):
         except NotUniqueError:
             raise EmailAlreadyExistsError
         except FieldDoesNotExist:
-            raise SchemaValidationError
+            raise ExcessiveFieldsError
         except AgeNotAllowedError:
             raise AgeNotAllowedError
         except NotAPhoneNumberError:
             raise NotAPhoneNumberError
         except ValidationError:
+            raise ValidationError
+        except ValueError:
             raise ValidationError
         except Exception as e:
             raise InternalServerError
