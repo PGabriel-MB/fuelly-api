@@ -10,7 +10,7 @@ from database.User import User
 from database.Vehicle import Vehicle
 
 from resources.errors import SchemaValidationError, CarAlreadyExistsError, \
-InternalServerError
+InternalServerError, ExcessiveFieldsError, InvalidLicensePlate
 
 class VehiclesApi(Resource):
     @jwt_required()
@@ -47,6 +47,9 @@ class VehiclesApi(Resource):
             if result:
                 raise CarAlreadyExistsError
             
+            if body['country_code'] == 'BR' and not body['license_plate'].isalnum():
+                raise InvalidLicensePlate
+            
             body['owner'] = user_id
 
             vehicle = Vehicle(**body).save()
@@ -55,7 +58,9 @@ class VehiclesApi(Resource):
         except NotUniqueError:
             raise CarAlreadyExistsError
         except FieldDoesNotExist:
-            raise SchemaValidationError
+            raise ExcessiveFieldsError
+        except InvalidLicensePlate:
+            raise InvalidLicensePlate
         except Exception as e:
             raise InternalServerError
 

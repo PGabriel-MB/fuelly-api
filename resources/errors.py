@@ -19,6 +19,9 @@ class DeletingCarError(Exception):
 class CarNotExistsError(Exception):
     ...
 
+class InvalidLicensePlate(Exception):
+    ...
+
 class EmailAlreadyExistsError(Exception):
     ...
 
@@ -63,6 +66,10 @@ errors = {
         "message": "Car with given id doesn't exists",
         "status": 400
     },
+    "InvalidLicensePlate": {
+        "message": "The vehicle license plate is not valid",
+        "status": 400
+    },
     "EmailAlreadyExistsError": {
         "message": "User with given email address already exists",
         "status": 400
@@ -84,7 +91,7 @@ errors = {
         "status": 401
     },
     "ValidationError": {
-        "message": "check if the data was sent correctly",
+        "message": "Check if the data was sent correctly",
         "status": 401
     }
 }

@@ -72,7 +72,7 @@ class LoginApi(Resource):
 
             user_dict['birth_date'] = user_dict['birth_date'].strftime('%Y-%m-%d')
 
-            data = { 'id': str(user.id) } | user_dict | { 'token': access_token }            #return { 'token': access_token }, 200
+            data = { 'id': str(user.id) } | user_dict | { 'token': access_token }
 
             return Response(json.dumps(data), mimetype="application/json", status=200)
         except (UnauthorizedError, DoesNotExist):
