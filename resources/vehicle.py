@@ -4,7 +4,7 @@ from flask import Response, request, jsonify
 from flask_restful import Resource
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from mongoengine.errors import NotUniqueError, FieldDoesNotExist, DoesNotExist, InvalidDocumentError
+from mongoengine.errors import NotUniqueError, FieldDoesNotExist, DoesNotExist, InvalidDocumentError, ValidationError
 
 from database.User import User
 from database.Vehicle import Vehicle
@@ -57,6 +57,8 @@ class VehiclesApi(Resource):
             return {'message': f'Vehicle {license_plate} added succesfully!'}, 200
         except NotUniqueError:
             raise CarAlreadyExistsError
+        except ValidationError as e:
+            raise { 'message': e.message, 'status': 400 }
         except FieldDoesNotExist:
             raise ExcessiveFieldsError
         except InvalidLicensePlate:

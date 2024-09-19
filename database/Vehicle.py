@@ -24,7 +24,13 @@ FUEL_TYPE = [
 ]
 
 class Vehicle(BaseDocument):
-    license_plate = me.StringField(required=False, unique=True, null=True)
+    license_plate = me.StringField(
+        required=False,
+        unique=True,
+        null=True,
+        min_length=4,
+        max_length=10
+    )
     brand = me.StringField(required=True)
     model = me.StringField(required=True)
     year = me.IntField(required=True)
