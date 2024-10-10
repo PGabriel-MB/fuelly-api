@@ -2,15 +2,15 @@ import json
 
 from flask import Response, request, jsonify
 from flask_restful import Resource
-from flask_jwt_extended.exceptions import NoAuthorizationError
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from mongoengine.errors import NotUniqueError, FieldDoesNotExist, DoesNotExist, InvalidDocumentError, ValidationError
+from mongoengine.errors import NotUniqueError, FieldDoesNotExist, DoesNotExist, InvalidDocumentError
 
 from database.User import User
 from database.Vehicle import Vehicle
+from .utils import is_too_long
 
 from resources.errors import SchemaValidationError, CarAlreadyExistsError, \
-InternalServerError, ExcessiveFieldsError, InvalidLicensePlate
+InternalServerError, ExcessiveFieldsError, InvalidLicensePlate, ValidationError
 
 class VehiclesApi(Resource):
     @jwt_required()
@@ -47,6 +47,9 @@ class VehiclesApi(Resource):
             if result:
                 raise CarAlreadyExistsError
             
+            if is_too_long(vehicle['license_plate']):
+                raise 'erro da preula'
+            
             if body['country_code'] == 'BR' and not body['license_plate'].isalnum():
                 raise InvalidLicensePlate
             
@@ -58,7 +61,8 @@ class VehiclesApi(Resource):
         except NotUniqueError:
             raise CarAlreadyExistsError
         except ValidationError as e:
-            raise { 'message': e.message, 'status': 400 }
+            print(e)
+            raise ValidationError
         except FieldDoesNotExist:
             raise ExcessiveFieldsError
         except InvalidLicensePlate:
