@@ -10,6 +10,9 @@ class ExcessiveFieldsError(Exception):
 class CarAlreadyExistsError(Exception):
     ...
 
+class LicensePlateIsTooLong(Exception):
+    ...
+
 class UpdatingCarError(Exception):
     ...
 
@@ -52,6 +55,10 @@ errors = {
     },
     "CarAlreadyExistsError": {
         "message": "Car with given name/license plate already exists",
+        "status": 400
+    },
+    "LicensePlateIsTooLong": {
+        "message": "The vehicle license plate is too long",
         "status": 400
     },
     "UpdatingCarError": {

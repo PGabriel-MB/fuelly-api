@@ -10,7 +10,8 @@ from database.Vehicle import Vehicle
 from .utils import is_too_long
 
 from resources.errors import SchemaValidationError, CarAlreadyExistsError, \
-InternalServerError, ExcessiveFieldsError, InvalidLicensePlate, ValidationError
+InternalServerError, ExcessiveFieldsError, InvalidLicensePlate, ValidationError, \
+LicensePlateIsTooLong
 
 class VehiclesApi(Resource):
     @jwt_required()
@@ -47,8 +48,8 @@ class VehiclesApi(Resource):
             if result:
                 raise CarAlreadyExistsError
             
-            if is_too_long(vehicle['license_plate']):
-                raise 'erro da preula'
+            if is_too_long(10, body['license_plate']):
+                raise LicensePlateIsTooLong
             
             if body['country_code'] == 'BR' and not body['license_plate'].isalnum():
                 raise InvalidLicensePlate
@@ -60,9 +61,8 @@ class VehiclesApi(Resource):
             return {'message': f'Vehicle {license_plate} added succesfully!'}, 200
         except NotUniqueError:
             raise CarAlreadyExistsError
-        except ValidationError as e:
-            print(e)
-            raise ValidationError
+        except LicensePlateIsTooLong:
+            raise LicensePlateIsTooLong
         except FieldDoesNotExist:
             raise ExcessiveFieldsError
         except InvalidLicensePlate:
