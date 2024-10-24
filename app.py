@@ -6,6 +6,7 @@ from resources.errors import errors
 
 from config import MONGODB_SETTINGS
 from database.db import initialize_db
+from middleware import register_jwt_handlers
 
 app = Flask(__name__)
 app.config.from_envvar('ENV_FILE_LOCATION')
@@ -19,5 +20,6 @@ jwt = JWTManager(app)
 
 initialize_db(MONGODB_SETTINGS)
 initialize_routes(api)
+register_jwt_handlers(app, jwt)
 
 app.run()
