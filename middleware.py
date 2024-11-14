@@ -2,8 +2,7 @@ from flask import jsonify
 from werkzeug.exceptions import HTTPException
 
 def register_jwt_handlers(app, jwt):
-    print("Estou sendo chamado aqui")
-
+    
     @jwt.invalid_token_loader
     def invalid_token_callback(reason):
         '''Invalid token handler'''
@@ -32,6 +31,6 @@ def register_jwt_handlers(app, jwt):
     def handle_http_exception(error):
         '''HTTP Exceptions handler'''
         return jsonify({
-            "error": "Erro de solicitação.",
+            "error": "Solicitation error.",
             "message": error.description
         }), error.code
