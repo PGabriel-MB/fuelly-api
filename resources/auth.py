@@ -54,7 +54,6 @@ class LoginApi(Resource):
             user = User.objects.get(
                 email=body.get('email')
             )
-            user.vehicles
             authorized = user.check_password(body.get('password'))
 
             if not authorized:
@@ -62,17 +61,8 @@ class LoginApi(Resource):
 
             expires = datetime.timedelta(days=7)
             access_token = create_access_token(identity=str(user.id), expires_delta=expires)
-            
-            user_dict = user.to_mongo().to_dict()
 
-            user_dict.pop('_id', None)
-            user_dict.pop('created_at', None)
-            user_dict.pop('updated_at', None)
-            user_dict.pop('password', None)
-
-            user_dict['birth_date'] = user_dict['birth_date'].strftime('%Y-%m-%d')
-
-            data = { 'id': str(user.id) } | user_dict | { 'token': access_token }
+            data = { 'id': str(user.id) } | { 'token': access_token }
 
             return Response(json.dumps(data), mimetype="application/json", status=200)
         except (UnauthorizedError, DoesNotExist):
