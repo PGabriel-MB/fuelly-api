@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
@@ -13,6 +14,8 @@ from routes import initialize_routes
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
+CORS(app)
+# @TODO: Add an URL restriction into the cors configuration
 app.config.from_envvar('ENV_FILE_LOCATION')
 
 

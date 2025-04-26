@@ -51,6 +51,7 @@ class LoginApi(Resource):
     def post(self):
         try:
             body = request.get_json()
+
             user = User.objects.get(
                 email=body.get('email')
             )
