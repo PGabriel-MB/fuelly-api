@@ -1,5 +1,5 @@
 from resources.user import UsersApi, UserApi
-from resources.auth import SignupApi, LoginApi
+from resources.auth import SignupApi, LoginApi, LogoutApi
 from resources.vehicle import VehiclesApi, VehicleApi
 
 def initialize_routes(api):
@@ -10,6 +10,7 @@ def initialize_routes(api):
     # auth
     api.add_resource(SignupApi, '/api/auth/signup')
     api.add_resource(LoginApi, '/api/auth/login')
+    api.add_resource(LogoutApi, '/api/auth/logout')
 
     # vehicles
     api.add_resource(VehiclesApi, '/api/vehicles')

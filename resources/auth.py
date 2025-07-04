@@ -3,13 +3,17 @@ import json
 
 from flask import request, Response
 from flask_restful import Resource
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt
+
 from mongoengine.errors import FieldDoesNotExist, NotUniqueError, DoesNotExist, ValidationError
 
 from database.User import User
 from .utils import is_phone_number
 from resources.errors import SchemaValidationError, EmailAlreadyExistsError, UnauthorizedError, \
 InternalServerError, NotAPhoneNumberError, AgeNotAllowedError, ValidationError as APIValidationError, ExcessiveFieldsError
+
+# Blacklist simples em memória (para produção, use Redis ou banco)
+jwt_blacklist = set()
 
 class SignupApi(Resource):
     def post(self):
@@ -73,3 +77,10 @@ class LoginApi(Resource):
         except Exception as e:
             print(e)
             raise InternalServerError
+
+class LogoutApi(Resource):
+    @jwt_required()
+    def post(self):
+        jti = get_jwt()["jti"]  # JWT ID
+        jwt_blacklist.add(jti)
+        return {"msg": "Logout realizado com sucesso."}, 200
