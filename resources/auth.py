@@ -59,6 +59,7 @@ class LoginApi(Resource):
             user = User.objects.get(
                 email=body.get('email')
             )
+            print("########################### TÁ ENTRANDO AQUI ###########################")
             authorized = user.check_password(body.get('password'))
 
             if not authorized:
@@ -75,6 +76,7 @@ class LoginApi(Resource):
         except TypeError:
             raise APIValidationError
         except Exception as e:
+            print("############################## O ERRO É AQUI #################################")
             print(e)
             raise InternalServerError
 
