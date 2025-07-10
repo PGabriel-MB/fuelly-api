@@ -13,6 +13,9 @@ from resources.errors import SchemaValidationError, EmailAlreadyExistsError, Una
 InternalServerError, NotAPhoneNumberError, AgeNotAllowedError, ValidationError as APIValidationError, ExcessiveFieldsError
 
 # Blacklist simples em memória (para produção, use Redis ou banco)
+# Note: This is a simple in-memory blacklist for demonstration purposes.
+# In a production environment, consider using a more persistent solution like Redis.
+# @TODO: Implement a more robust blacklist solution
 jwt_blacklist = set()
 
 class SignupApi(Resource):
@@ -59,7 +62,6 @@ class LoginApi(Resource):
             user = User.objects.get(
                 email=body.get('email')
             )
-            print("########################### TÁ ENTRANDO AQUI ###########################")
             authorized = user.check_password(body.get('password'))
 
             if not authorized:
@@ -76,7 +78,6 @@ class LoginApi(Resource):
         except TypeError:
             raise APIValidationError
         except Exception as e:
-            print("############################## O ERRO É AQUI #################################")
             print(e)
             raise InternalServerError
 
@@ -85,4 +86,4 @@ class LogoutApi(Resource):
     def post(self):
         jti = get_jwt()["jti"]  # JWT ID
         jwt_blacklist.add(jti)
-        return {"msg": "Logout realizado com sucesso."}, 200
+        return {"msg": "Logout successful!"}, 200

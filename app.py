@@ -12,7 +12,7 @@ from middleware import register_jwt_handlers
 from routes import initialize_routes
 from resources.auth import jwt_blacklist  # Adicione esta linha
 
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 CORS(app)
