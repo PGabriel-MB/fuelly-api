@@ -2,6 +2,7 @@ import pycountry
 from flask_bcrypt import check_password_hash, generate_password_hash
 from mongoengine import fields as me
 from datetime import datetime
+from dateutil.parser import parse
 
 from .models import BaseDocument
 
@@ -35,7 +36,7 @@ class User(BaseDocument):
     
     def is_of_appropriate_age(self, permitted_age: int) -> bool:
         current_date = datetime.now()
-        birth_date = datetime.strptime(self.birth_date, '%Y-%m-%d')
+        birth_date = parse(self.birth_date)
         current_age = current_date.year - birth_date.year - ((current_date.month, current_date.day) < (birth_date.month, birth_date.day))
     
         if current_age >= permitted_age:
